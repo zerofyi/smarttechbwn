@@ -1,0 +1,278 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+$font-primary: "Poppins", sans-serif;
+$primary-color: #8B2500;
+$primary-color-lite: #bf3f11;
+$off-white: #e9ecef;
+$off-black: #343a40;
+$text-color: #212529;
+$border-color: #dee2e6;
+
+$white: #ffffff;
+$black: #000000;
+
+// Mixin for font styles
+@mixin font-style($weight, $style: normal) {
+  font-family: $font-primary;
+  font-weight: $weight;
+  font-style: $style;
+}
+
+// Global Styling
+body {
+  @include font-style(400);
+  color: $text-color;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+// Headings
+h1, h2, h3, h4, h5, h6 {
+  @include font-style(700);
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+// Paragraphs
+p {
+  @include font-style(400);
+  font-size: 1rem;
+}
+
+// Links
+a {
+  @include font-style(500);
+  color: $text-color;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+.link {
+  @include font-style(500);
+  color: $primary-color;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+// Buttons
+button {
+  @include font-style(600);
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &.primary {
+    background-color: $primary-color;
+    color: $white;
+
+    &:hover {
+      color: $off-white;
+    }
+  }
+
+  &.secondary {
+    background-color: #6c757d;
+    color: $white;
+
+    &:hover {
+      color: $off-white;
+    }
+  }
+}
+
+// Forms
+input, textarea {
+  @include font-style(400);
+  font-size: 1rem;
+  padding: 10px;
+  border: 1px solid $border-color;
+  border-radius: 5px;
+
+  &:focus {
+    border-color: $primary-color;
+    outline: none;
+  }
+}
+
+// Lists
+ul, ol {
+  @include font-style(400);
+  margin-left: 20px;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+// Small Text
+small {
+  @include font-style(300);
+  font-size: 0.875rem;
+  color: #666;
+}
+
+// Italic & Bold Text
+.emphasis { @include font-style(400, italic); }
+.strong { @include font-style(700); }
+
+// Blockquote
+blockquote {
+  @include font-style(300, italic);
+  border-left: 4px solid $primary-color;
+  padding-left: 15px;
+  color: #555;
+}
+
+// Responsive classes
+.d-none {
+    display: none !important;
+}
+
+.d-lg-none {
+    @media (min-width: 992px) {
+        display: none !important;
+    }
+}
+
+.d-lg-block {
+    @media (min-width: 992px) {
+        display: block !important;
+    }
+}
+
+
+body{
+
+    .signup-container,
+    .login-container {
+        max-width: 400px;
+        width: 100%;
+        padding: 20px;
+        /* background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+        h2 {
+            position: relative;
+            margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: bold;
+            text-align: left;
+            color: #343a40;
+            padding-left: 10px; /* Adjust spacing as needed */
+
+            &::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 3px;
+                height: 100%;
+                background-color: $primary-color; /* You can change this color as needed */
+            }
+        }
+        .form-group{
+            label {
+                font-weight: 600;
+                color: $text-color;
+            }
+            .form-control {
+                position: relative;
+                font-size: 20px;
+                padding-right: 40px; /* Adjust to make space for the icon */
+            }
+            .password-toggle {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+            }
+            .otp-input-fields {
+                margin: auto;
+                max-width: 400px;
+                width: auto;
+                display: flex;
+                justify-content: center;
+                justify-content: space-between;
+
+                .otp-input {
+                    height: 40px;
+                    width: 40px;
+                    background-color: transparent;
+                    border-radius: 4px;
+                    border: 1px solid $primary-color-lite;
+                    text-align: center;
+                    outline: none;
+                    font-size: 16px;
+
+                    &:focus {
+                        border-width: 2px;
+                        border-color: $primary-color;
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+        .btn{
+            font-size: 20px;
+            width: 100%;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            font-weight: 200;
+            margin: 20px 0;
+
+            &::before,
+            &::after {
+                content: "";
+                flex: 1;
+                border-bottom: 1px solid $border-color;
+            }
+            &:not(:empty)::before{
+                margin-right: 10px;
+            }
+            &:not(:empty)::after{
+                margin-left: 10px;
+            }
+        }
+        .refer {
+            display: block;
+            text-align: center;
+            color: $primary-color;
+            border: 1px solid $primary-color-lite;
+            padding: 7px;
+            border-radius: 5px;
+            text-decoration: none;
+
+            &:hover {
+                background-color: $primary-color-lite;
+                color: white;
+            }
+        }
+    }
+    @media (min-width: 1024px) {
+        .signup-container,
+        .login-container  {
+            max-width: 440px;
+            background-color: $white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    }
+}
