@@ -1,17 +1,17 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\GuestController;
+use App\Http\Controllers\Store\StoreController;
 use Illuminate\Support\Facades\Route;
 
 // Public Store Browsing Routes (Accessible by Guests & Logged-in Customers)
 Route::middleware('check')->group(function () {
-    Route::get('/', [GuestController::class, 'home'])->name('index');
-    Route::get('explore', [GuestController::class, 'explore'])->name('explore');
-    Route::get('stores', [GuestController::class, 'stores'])->name('stores');
-    Route::get('products', [GuestController::class, 'products'])->name('products');
-    Route::get('product/{product}/{inventory}', [GuestController::class, 'show'])->name('product.show');
-    Route::get('search', [GuestController::class, 'search'])->name('search');
+    Route::get('/', [StoreController::class, 'home'])->name('index');
+    Route::get('explore', [StoreController::class, 'explore'])->name('explore');
+    Route::get('stores', [StoreController::class, 'stores'])->name('stores');
+    Route::get('products', [StoreController::class, 'products'])->name('products');
+    Route::get('product/{product}/{inventory}', [StoreController::class, 'show'])->name('product.show');
+    Route::get('search', [StoreController::class, 'search'])->name('search');
 
     // Registration Flow
     // Step 1 - Mobile & Email Details

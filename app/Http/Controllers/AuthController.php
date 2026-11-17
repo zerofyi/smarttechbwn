@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Otp;
 use App\Models\User;
 use App\Models\UserCart;
+use App\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -273,8 +274,29 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('customer.dashboard')
+        $this->mergeGuestCart($user);
+
+        return redirect()->route('account.dashboard')
             ->with('success', 'Registration complete! Welcome to our platform.');
+    }
+
+    /**
+     * Merge the guest (session) cart into the user's DB cart after
+     * login/registration. Guarded so login never breaks if the cart
+     * service is unavailable.
+     */
+    private function mergeGuestCart(User $user): void
+    {
+        try {
+            if (class_exists(CartService::class)) {
+                (new CartService)->mergeGuestCart($user);
+            }
+        } catch (\Throwable $e) {
+            Log::error('Guest cart merge failed', [
+                'user_id' => $user->user_id,
+                'error' => $e->getMessage(),
+            ]);
+        }
     }
 
     private function sendOtpViaApi(string $mobileNumber, string $code): bool
@@ -357,10 +379,12 @@ class AuthController extends Controller
                 session()->flash('warning', 'Shop information not found. Please contact support.');
             }
 
+            $this->mergeGuestCart($user);
+
             return match ($user->role) {
                 'admin'       => redirect()->route('admin.dashboard'),
                 'distributor' => redirect()->route('distributor.dashboard'),
-                'customer'    => redirect()->route('customer.dashboard'),
+                'customer'    => redirect()->route('account.dashboard'),
                 default       => redirect()->route('index'),
             };
         }

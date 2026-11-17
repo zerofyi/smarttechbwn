@@ -1,21 +1,20 @@
 <?php
 
-use App\Http\Controllers\UserCartController;
-use App\Http\Controllers\AppController;
 use Illuminate\Support\Facades\Route;
 
-Route::group([
-    'middleware' => ['auth', 'verified', 'customer'],
-    'prefix' => 'customer'
-], function () {
-    // Active Cart Routes
-    Route::get('cart', [UserCartController::class, 'index'])->name('customer.cart');
-    Route::post('cart/add', [UserCartController::class, 'addToCart'])->name('customer.cart.add');
-    Route::delete('cart/items/{item}', [UserCartController::class, 'removeItem'])->name('customer.cart.remove');
-    Route::post('cart/{cart}/clear', [UserCartController::class, 'clearCart'])->name('customer.cart.clear');
-    Route::post('cart/apply-coupon', [UserCartController::class, 'applyCoupon'])->name('customer.cart.apply-coupon');
-    Route::post('cart/{cart}/remove-coupon', [UserCartController::class, 'removeCoupon'])->name('customer.cart.remove-coupon');
+/*
+|--------------------------------------------------------------------------
+| Legacy /customer/* redirects
+|--------------------------------------------------------------------------
+| The old customer cart/checkout routes (UserCartController /
+| AppController, route names customer.cart / customer.checkout) no
+| longer exist. Old URLs redirect to their new equivalents; anything
+| else under /customer goes to the account dashboard.
+*/
 
-    // Checkout Action
-    Route::get('checkout', [AppController::class, 'checkout'])->name('customer.checkout');
-});
+Route::redirect('/customer/cart', '/cart', 301);
+Route::redirect('/customer/checkout', '/checkout', 301);
+
+Route::get('/customer/{any}', function () {
+    return redirect()->route('account.dashboard');
+})->where('any', '.*');

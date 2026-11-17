@@ -1,4 +1,4 @@
-@extends('layouts.guest')
+@extends('layouts.store')
 @section('title', $inventory->product->name)
 @section('content')
 
@@ -249,8 +249,10 @@
 
                 <!-- CTA Buttons -->
                 <div style="border-top: 1px solid var(--rb-warm-border); padding-top: 16px;">
-                    @auth
-                        <form method="POST" action="{{ route('customer.cart.add') }}" class="flex flex-col sm:flex-row gap-2">
+                    {{-- Cart works for guests too (session cart, merged on login);
+                        Buy Now redirects to checkout, which asks guests to log in. --}}
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <form method="POST" action="{{ route('cart.add') }}" class="flex-1 flex">
                             @csrf
                             <input type="hidden" name="inventory_id" value="{{ $inventory->inventory_id }}">
                             <input type="hidden" name="quantity" value="1">
@@ -261,22 +263,26 @@
                                 </svg>
                                 Add to Cart
                             </button>
-                            <a href="{{ route('customer.checkout', ['inventory_id' => $inventory->inventory_id]) }}" class="buy-now-btn flex-1 py-3 px-4 rounded-xl font-semibold text-sm text-center flex items-center justify-center">
-                                Buy Now
-                            </a>
                         </form>
-                    @else
-                        <div class="flex flex-col sm:flex-row gap-2">
-                            <a href="{{ route('login') }}" class="add-to-cart-btn flex-1 py-3 px-4 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 text-center">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                </svg>
-                                Add to Cart
-                            </a>
-                            <a href="{{ route('login') }}" class="buy-now-btn flex-1 py-3 px-4 rounded-xl font-semibold text-sm text-center flex items-center justify-center">
+                        <form method="POST" action="{{ route('cart.add') }}" class="flex-1 flex">
+                            @csrf
+                            <input type="hidden" name="inventory_id" value="{{ $inventory->inventory_id }}">
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="hidden" name="buy_now" value="1">
+
+                            <button type="submit" class="buy-now-btn flex-1 py-3 px-4 rounded-xl font-semibold text-sm text-center flex items-center justify-center">
                                 Buy Now
-                            </a>
-                        </div>
+                            </button>
+                        </form>
+                    </div>
+                    @auth
+                        <form method="POST" action="{{ route('account.wishlist.store') }}" class="mt-2">
+                            @csrf
+                            <input type="hidden" name="inventory_id" value="{{ $inventory->inventory_id }}">
+                            <button type="submit" class="w-full py-2 px-4 rounded-xl text-sm font-semibold border border-gray-300 text-gray-700 hover:bg-gray-50">
+                                <i class="far fa-heart mr-1"></i> Save to Wishlist
+                            </button>
+                        </form>
                     @endauth
 
                     <div class="mt-3 flex items-center gap-2 text-xs" style="color: #8A5A48;">

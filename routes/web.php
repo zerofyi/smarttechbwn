@@ -16,6 +16,7 @@ Route::get('invoice/v2/{invoice_url}', [InvoiceController::class, 'print2'])->na
 Route::get('invoice/{invoice_url}/download', [InvoiceController::class, 'download'])->name('invoice.download');
 
 require __DIR__.'/auth.php';
+require __DIR__.'/account.php';
 require __DIR__.'/admin.php';
 require __DIR__.'/customer.php';
 require __DIR__.'/distributor.php';

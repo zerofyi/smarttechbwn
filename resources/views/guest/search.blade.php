@@ -1,4 +1,4 @@
-@extends('layouts.customer')
+@extends('layouts.store')
 
 @section('title', 'Search' . ($searchTerm ? " - $searchTerm" : ''))
 
@@ -79,7 +79,7 @@
                 </button>
             </div>
             <div class="col">
-                <form action="{{ route('customer.search') }}" method="GET" class="d-flex">
+                <form action="{{ route('search') }}" method="GET" class="d-flex">
                     <input
                         type="text"
                         name="q"
@@ -136,7 +136,7 @@
                                         @endif
                                     </div>
                                     <h6 class="mb-2">
-                                        <a href="{{ route('customer.product.show', ['slug' => $product->slug, 'variant' => $variant->variant_id]) }}"
+                                        <a href="{{ route('product.show', ['product' => $product->slug, 'inventory' => $variant->inventory_id ?? $variant->variant_id ?? null]) }}"
                                            class="text-decoration-none text-dark">
                                             {{ $product->name }}
                                             @if($variant->attributes->isNotEmpty())
@@ -192,7 +192,7 @@
             </div>
             <h4 class="mb-3">No products found</h4>
             <p class="text-muted mb-4">We couldn't find any products matching "{{ $searchTerm }}"</p>
-            <a href="{{ route('customer.products') }}" class="btn btn-primary">
+            <a href="{{ route('products') }}" class="btn btn-primary">
                 <i class="fas fa-grid-2 me-2"></i>Browse All Products
             </a>
         </div>
